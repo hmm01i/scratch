@@ -1,2 +1,5 @@
 venv
 .vagrant
+*.un~
+*.un
+*~
