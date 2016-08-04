@@ -1,4 +1,4 @@
 import subprocess
 
 while True:
-    subprocess.call('yes')
+    subprocess.Popen('yes')
