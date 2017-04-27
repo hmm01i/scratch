@@ -1,0 +1,70 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:        diamond
+# Required-Start:  $network $remote_fs $syslog
+# Required-Stop:   $network $remote_fs $syslog
+# Default-Start:   3 4 5
+# Default-Stop:    1
+# Short-Description: Start diamond collector
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+. /etc/rc.d/functions
+
+
+name="diamond"
+prog="/opt/diamond/bin/diamond"
+config="/etc/diamond/diamond.conf"
+user="diamond"
+opts="--config $config"
+pidfile="/var/run/${name}.pid"
+
+cd /opt/diamond
+. bin/activate
+
+start(){
+    $prog $opts
+}
+
+stop(){
+  if [ -f $pidfile ]; then
+    PID=$(cat $pidfile)
+    kill $PID
+    echo "Waiting for process to shutdown"
+    while $(kill -0 $PID);do
+      sleep 1
+      echo "."
+    done
+  fi
+}
+
+status(){
+  if [ -f $pidfile ];then
+    PID=$(cat $pidfile)
+    echo "pid file found ..."
+  fi
+  kill -0 $PID && echo "Process found ..." || echo "Process not found"
+}
+
+case $1 in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  status)
+    status
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    ;;
+esac
+
+exit 0
