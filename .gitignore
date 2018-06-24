@@ -1,7 +1,9 @@
 venv
+man/
 bin/
 lib/
 src/
+include/
 *.swp
 .vagrant
 *.un~
