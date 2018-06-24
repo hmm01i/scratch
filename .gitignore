@@ -1,6 +1,10 @@
 venv
+bin/
+lib/
+src/
 *.swp
 .vagrant
 *.un~
 *.un
 *~
+__pycache__/
